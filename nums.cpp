@@ -7,11 +7,6 @@ using namespace std;
 void generateNumbers() {
 	ofstream outFS("test_case.txt");
 	vector<int> params;
-	// int num_values; // index 0
-	// int max_value; // index 1
-	// int min_value; // index 2
-	// int grouping; // index 3
-	// int sorting; // index 4
 	ifstream inFS("test_case_numbers.config");
 	string str, junk;
 	while (inFS >> junk >> str) {
@@ -24,23 +19,24 @@ void generateNumbers() {
 		}
 	}
 	vector<int> input_nums;
-	for (int i = 0; i < params[0]; ++i) {
-		int random = (rand() % (params[1] + 1));
+	for (int i = 0; i < params[NUM_VALUES]; ++i) {
+		int random = (rand() % (params[MAX_VALUE] + 1));
 		if (rand() % 2 == 0) { random *= -1; }
-		if (random < params[2]) {
-			random = params[2] + (rand() % (params[1] - params[2]));
+		if (random < params[MIN_VALUE]) {
+			random = params[MIN_VALUE] 
+				   + (rand() % (params[MAX_VALUE] - params[MIN_VALUE]));
 		}
 		input_nums.push_back(random);
 	}
 
-	if (params[4] == 1) {
-		if (params[3] > 1) {
+	if (params[SORTING]) {
+		if (params[GROUPING] > 1) {
 			auto it = input_nums.begin();
-			auto it2 = it + (params[3]);
+			auto it2 = it + (params[GROUPING]);
 			while (it2 <= input_nums.end()) {
 				std::sort(it, it2);
-				it += params[3];
-				it2 += params[3];
+				it += params[GROUPING];
+				it2 += params[GROUPING];
 			}
 		}
 		else {
@@ -50,7 +46,7 @@ void generateNumbers() {
 	outFS << '[';
 	int i = 0;
 	for (; i < (input_nums.size()); ++i) {
-		if (params[3] == 2) {
+		if (params[GROUPING] == 2) {
 			if (i % 2 == 0) {
 				outFS << '[' << input_nums[i] << ',';
 			}
@@ -69,18 +65,19 @@ void generateNumbers() {
 		}
 	}
 	outFS << ']';
-	if (params[2] >= 0) {
+	if (params[MIN_VALUE] >= 0) {
 		// cout << "PrintBigNum test: ";
 		cout << "Generated ";
-		printBigNum((params[0] - 0));
+		printBigNum((params[NUM_VALUES] - 0));
 		cout << " values in the range of\033[1;37m["
-			<< params[2] << "," << params[1] << "]\n"
+			<< params[MIN_VALUE] << "," << params[MAX_VALUE] << "]\n"
 			<< "\33[0m";
 	}
 	else {
 		cout << "Generated ";
-		printBigNum((params[0] - 0));
-		cout << " values in the range of \033[1;37m[" << (params[2]) << "," << params[1] << "]\n"
-			<< "\33[0m";
+		printBigNum((params[NUM_VALUES] - 0));
+		cout << " values in the range of \033[1;37m[" << (params[MIN_VALUE]) << "," 
+			 << params[MAX_VALUE] << "]\n"
+			 << "\33[0m";
 	}
 }
