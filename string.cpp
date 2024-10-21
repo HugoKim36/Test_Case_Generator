@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <unordered_map>
 #include "string.hpp"
 
 using namespace std;
@@ -22,18 +23,27 @@ void generateString(ostream& outFS) {
 	int len = rand() % (params[MAX_LENGTH] - params[MIN_LENGTH] + 1) 
 					   + params[MIN_LENGTH];
 
-	bool spaces_allowed = params[SPACES_ALLOWED];
-	bool nums_allowed = params[DIGITS_ALLOWED];
-	bool symbols_allowed = params[SYMBOLS_ALLOWED];
-	bool uppercase_allowed = params[UPPERCASE_ALLOWED];
-	bool lowercase_allowed = params[LOWERCASE_ALLOWED];
+	unordered_map<int, bool> valid_chars = {
+		{SPACES, params[SPACES]},
+		{DIGITS, params[DIGITS]},
+		{SYMBOLS, params[SYMBOLS]},
+		{UPPERCASE, params[UPPERCASE]},
+		{LOWERCASE, params[LOWERCASE]},
+	};
+
+	//bool spaces_allowed = params[SPACES];
+	//bool nums_allowed = params[DIGITS];
+	//bool symbols_allowed = params[SYMBOLS];
+	//bool uppercase_allowed = params[UPPERCASE];
+	//bool lowercase_allowed = params[LOWERCASE];
 
 	for (int i = 0; i <= len; ++i) {
-		char character = random_char(spaces_allowed, nums_allowed, symbols_allowed);
-		if (isalpha(character)) {
-			set_capitalization(character, uppercase_allowed, lowercase_allowed);
+		char chr = random_char(valid_chars[SPACES], valid_chars[DIGITS], 
+							   valid_chars[SYMBOLS]);
+		if (isalpha(chr)) {
+			set_capitalization(chr, valid_chars[UPPERCASE], valid_chars[LOWERCASE]);
 		}
-		str += character;
+		str += chr;
 	}
 
 	str += "\"";
@@ -42,23 +52,23 @@ void generateString(ostream& outFS) {
 	cout << "Generated a string of length ";
 	printBigNum((str.length() - 2));
 	cout << " containing\033[1;37m ";
-	if (!spaces_allowed && !nums_allowed && !symbols_allowed) {
+	if (!valid_chars[SPACES] && !valid_chars[DIGITS] && !valid_chars[SYMBOLS]) {
 		cout << "only ";
 	}
-	if (!uppercase_allowed) {
+	if (!valid_chars[UPPERCASE]) {
 		cout << "lowercase ";
 	}
-	else if (!lowercase_allowed) {
+	else if (!valid_chars[LOWERCASE]) {
 		cout << "uppercase ";
 	}
 	cout << "English letters";
-	if (spaces_allowed) {
+	if (valid_chars[SPACES]) {
 		cout << " + spaces";
 	}
-	if (nums_allowed) {
+	if (valid_chars[DIGITS]) {
 		cout << " + digits";
 	}
-	if (symbols_allowed) {
+	if (valid_chars[SYMBOLS]) {
 		cout << " + symbols";
 	}
 	cout << '\n' << "\33[0m";

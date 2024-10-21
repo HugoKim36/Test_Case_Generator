@@ -5,7 +5,6 @@
 using namespace std;
 
 void generateNumbers(ostream& outFS) {
-	// ofstream outFS("test_case.txt");
 	vector<int> params;
 	ifstream inFS("test_case_numbers.config");
 	string str, junk;

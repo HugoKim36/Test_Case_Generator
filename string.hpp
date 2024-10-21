@@ -15,11 +15,11 @@ void set_capitalization(char& letter, bool uppercase_allowed, bool lowercase_all
 enum StringParameters {
   MAX_LENGTH   = 0,
   MIN_LENGTH   = 1,
-  UPPERCASE_ALLOWED    = 2,
-  LOWERCASE_ALLOWED = 3,
-  SPACES_ALLOWED = 4,
-  DIGITS_ALLOWED = 5,
-  SYMBOLS_ALLOWED = 6
+  UPPERCASE    = 2,
+  LOWERCASE = 3,
+  SPACES = 4,
+  DIGITS = 5,
+  SYMBOLS = 6
 };
 
 #endif

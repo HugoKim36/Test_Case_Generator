@@ -19,10 +19,10 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 
-	if (argc == 1 || string(argv[1]) == "ints" || stoi(argv[1]) == 1) {
+	if (argc == 1 || string(argv[1]) == "ints" || string(argv[1]) == "1") {
 		generateNumbers(outFS);
 	}
-	else if (string(argv[1]) == "string" || stoi(argv[1]) == 2) {
+	else if (string(argv[1]) == "string" || string(argv[1]) == "2") {
 		generateString(outFS);
 	}
 }
