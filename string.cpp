@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void generateString() {
+void generateString(ostream& outFS) {
 	ifstream inFS("test_case_string.config");
 	vector<int> params;
 	string input, junk;
@@ -37,7 +37,7 @@ void generateString() {
 	}
 
 	str += "\"";
-	ofstream outFS("test_case.txt");
+	// ofstream outFS("test_case.txt");
 	outFS << str;
 	cout << "Generated a string of length ";
 	printBigNum((str.length() - 2));

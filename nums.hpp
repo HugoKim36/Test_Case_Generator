@@ -3,8 +3,10 @@
 
 #include <algorithm>
 #include "helper_functions.hpp"
+#include <iostream>
+// #include <fstream>
 
-enum NumsArguments {
+enum NumsParameters {
 	NUM_VALUES = 0,
 	MAX_VALUE = 1,
 	MIN_VALUE = 2,
@@ -12,6 +14,6 @@ enum NumsArguments {
 	SORTING = 4,
 };
 
-void generateNumbers();
+void generateNumbers(std::ostream& outFS);
 
 #endif
