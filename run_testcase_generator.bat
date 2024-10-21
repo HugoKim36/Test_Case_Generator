@@ -1,0 +1,1 @@
+start "" /B wsl.exe ./main.exe
