@@ -5,7 +5,7 @@ CXX ?= g++
 CXXFLAGS ?= --std=c++17 -Wall -Werror -pedantic -g -Wno-sign-compare -Wno-comment
 
 # Compile the main executable
-main.exe: main.cpp string.cpp helper_functions.cpp
+main.exe: main.cpp nums.cpp string.cpp helper_functions.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 # Remove automatically generated files
