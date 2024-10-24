@@ -12,8 +12,11 @@ enum NumsParameters {
 	MIN_VALUE = 2,
 	GROUPING = 3,
 	SORTING = 4,
+	UNIQUE_NUMS = 5,
 };
 
 void generateNumbers(std::ostream& outFS);
+
+void removeDuplicates(std::vector<int>& nums);
 
 #endif

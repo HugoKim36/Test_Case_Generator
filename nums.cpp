@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "nums.hpp"
+#include <unordered_set>
 
 using namespace std;
 
@@ -17,6 +18,15 @@ void generateNumbers(ostream& outFS) {
 			params.push_back(stoi(str));
 		}
 	}
+	if (params[MIN_VALUE] > params[MAX_VALUE]) {
+		cout << "ERROR: the minimum value must be <= the maximum value.\n";
+		return;
+	}
+	else if ((params[MAX_VALUE] - params[MIN_VALUE]) < params[NUM_VALUES] &&
+		params[UNIQUE_NUMS]) {
+		cout << "ERROR: the minimum value must be <= the maximum value.\n";
+		return;
+	}
 	vector<int> input_nums;
 	for (int i = 0; i < params[NUM_VALUES]; ++i) {
 		int random = (rand() % (params[MAX_VALUE] + 1));
@@ -27,7 +37,10 @@ void generateNumbers(ostream& outFS) {
 		}
 		input_nums.push_back(random);
 	}
-
+	// temporary buggy implementation - could def improve this
+	if (params[UNIQUE_NUMS]) {
+		removeDuplicates(input_nums);
+	}
 	if (params[SORTING]) {
 		if (params[GROUPING] > 1) {
 			auto it = input_nums.begin();
@@ -45,12 +58,18 @@ void generateNumbers(ostream& outFS) {
 	outFS << '[';
 	int i = 0;
 	for (; i < (input_nums.size()); ++i) {
-		if (params[GROUPING] == 2) {
-			if (i % 2 == 0) {
+		if (params[GROUPING] >= 2) {
+			if (i % params[GROUPING] == 0) {
 				outFS << '[' << input_nums[i] << ',';
-			}
-			else if (i % 2 == 1) {
+			} //else if (i % 2 == 1) {
+			else if (i % params[GROUPING] == (params[GROUPING] - 1)) {
 				outFS << input_nums[i] << ']';
+				if (i < (input_nums.size() - 1)) {
+					outFS << ',';
+				}
+			}
+			else {
+				outFS << input_nums[i];
 				if (i < (input_nums.size() - 1)) {
 					outFS << ',';
 				}
@@ -64,19 +83,37 @@ void generateNumbers(ostream& outFS) {
 		}
 	}
 	outFS << ']';
-	if (params[MIN_VALUE] >= 0) {
+	// if (params[MIN_VALUE] >= 0) {
 		// cout << "PrintBigNum test: ";
 		cout << "Generated ";
 		printBigNum((params[NUM_VALUES] - 0));
-		cout << " values in the range of\033[1;37m["
+		cout << " values in the range of \033[1;37m["
 			<< params[MIN_VALUE] << "," << params[MAX_VALUE] << "]\n"
 			<< "\33[0m";
+	// }
+	//else {
+	//	cout << "Generated ";
+	//	printBigNum((params[NUM_VALUES] - 0));
+	//	cout << " values in the range of \033[1;37m[" << (params[MIN_VALUE]) << "," 
+	//		 << params[MAX_VALUE] << "]\n"
+	//		 << "\33[0m";
+	//}
+}
+
+void removeDuplicates(vector<int>& nums) {
+	unordered_set<int> unique_nums;
+	for (const auto& i : nums) {
+		unique_nums.insert(i);
 	}
-	else {
-		cout << "Generated ";
-		printBigNum((params[NUM_VALUES] - 0));
-		cout << " values in the range of \033[1;37m[" << (params[MIN_VALUE]) << "," 
-			 << params[MAX_VALUE] << "]\n"
-			 << "\33[0m";
+	int size_diff = (nums.size() - unique_nums.size());
+	// vector.reserve(set.size());
+	int i = 0;
+	for (auto it = unique_nums.begin(); it != unique_nums.end(); ) {
+		// nums.push_back(std::move(unique_nums.extract(it++).value()));
+		nums[i] = *it++;
+		++i;
+	}
+	for (int j = 0; j < size_diff; ++j) {
+		nums.pop_back();
 	}
 }

@@ -23,6 +23,6 @@ int main(int argc, char** argv) {
 		generateNumbers(outFS);
 	}
 	else if (string(argv[1]) == "string" || string(argv[1]) == "2") {
-		generateString(outFS);
+		generateStringTests(outFS);
 	}
 }
